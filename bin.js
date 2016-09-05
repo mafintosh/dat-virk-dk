@@ -29,6 +29,8 @@ function ready (key, last) {
 
   console.log('Importing virk.dk data to ' + archive.key.toString('hex') + ' (last entry was ' + (last ? last.indlaesningsTidspunkt : '(nil)') + ')')
 
+  if (process.argv.indexOf('--no-resume') > -1) return
+
   db.put('_key', archive.key.toString('hex'), function (err) {
     if (err) throw err
     createDataStream(last).pipe(createNormalizeStream()).pipe(through.obj(write))
